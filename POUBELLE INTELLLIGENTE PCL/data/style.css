@@ -1,0 +1,141 @@
+
+/* parti body */
+body{
+    margin: 0px;
+    background-color: #EFEFEF;
+    background-position: no-repeat;
+}
+/* parti body */
+
+
+
+/* parti header */
+header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    text-align: center;
+    margin-top: 10px;
+    padding: 20px;
+    color: #ffff;
+    
+}
+header {
+    background-color: #4973C2;
+    display: flex;
+    align-items: center;
+}
+header img {
+    width: 70px; /* Largeur de 100 pixels, hauteur ajustée automatiquement */
+    margin-left: 20px;
+}
+header h1 {
+    margin-left: 10px; /* Espace entre le texte et l'image */
+}
+main h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+
+}
+/* parti header */
+
+
+
+/* parti main */
+main p {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+
+}
+/* parti main */
+
+
+
+.box_volume {
+    border: 3px solid grey;
+    height: 168px;
+    width: 168px;
+    margin: 30px;
+    text-align: center;
+}
+.box_masse {
+    border: 3px solid grey;
+    height: 168px;
+    width: 168px;
+    margin: 30px;
+    text-align: center;
+}
+.box_soleil {
+    border: 3px solid grey;
+    height: 168px;
+    width: 168px;
+    margin: 30px;
+    text-align: center;
+    margin-left: 228px;
+    margin-top: -205px;
+}
+.box_soleil p {
+    font-weight: bold; /* Met tous les paragraphes en gras */
+    color: #76D800;
+}
+
+.box_batterie{
+    border: 3px solid grey;
+    height: 168px;
+    width: 168px;
+    margin: 30px;
+    display: flex;
+    flex-direction: column; /* Aligne les éléments verticalement */
+    align-items: center; /* Centre les éléments horizontalement */
+    text-align: center; /* Centre le texte horizontalement */
+}
+.content {
+    display: flex;
+    align-items: center; /* Centre les éléments verticalement */
+}
+.content img {
+    margin-right: 10px; /* Espacement entre l'image et le paragraphe */
+    width: 50%;
+
+}
+
+.box_niveau {
+    border: 3px solid grey;
+    height: 370px;
+    width: 168px;
+    margin: 30px;
+    margin-left: 228px;
+    margin-top: -610px;
+    text-align: center;
+}
+
+.box_call {
+    height: 168px;
+    width: 367px;
+    border: 3px solid grey;
+    margin: 30px;
+    margin-top: 228px;
+    text-align: center;
+
+}
+.action-button:hover {
+    text-decoration: underline; /* Souligne le texte lorsque survolé */
+}
+
+
+@media screen and (min-width: 768px){
+    .box_niveau {
+        margin-left: 624px;   
+        margin-top: -202px; 
+    }
+    .box_batterie{
+        margin-left: 228px;
+        margin-top: -408px;
+    }
+    .box_soleil{
+        margin-left: 426px;
+    }
+    .box_call{
+        margin-top: -203px;
+        margin-left: 228px;
+    }
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="logo.png" sizes="128x128">
+    <link rel="stylesheet" href="style.css">
+    <title>SmartBin</title>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <img src="user.png" alt="user">
+        <h1>POUBELLE CONNECTÉE</h1>
+    </header>
+    <main>
+        <section class="contenu">
+
+            <div class="little_box">
+                <div class="box_volume">
+                    <h2>volume :</h2>
+                    <p id="statusVolume">Loading...</p>
+                </div>
+            </div>
+
+            <div class="little_box">
+                <div class="box_masse">
+                    <h2>masse :</h2>
+                    <p id="statusmasse">Loading...</p>
+                </div>
+            </div>
+
+            <div class="little_box">
+                <div class="box_batterie">
+                    <h2>batterie :</h2>
+                    <div class="content">
+                        <img src="batterie.png" alt="batterie">
+                        <p id="statusbat">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="little_box">
+                <div class="box_soleil">
+                    <h2>soleil :</h2>
+                    <div class="content">
+                        <img src="soleil.png" alt="soleil">
+                        <p>10Wh</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box_niveau">
+                <h2>niveau :</h2>
+                <img src="logo_bg.png" alt="poubelle">     
+                <p id="statusValue">Loading...</p>
+            </div>
+
+            <div class="box_call">
+                <h2>récuperation :</h2>
+                <a href="mailto:service.poubelle@bordeaux.com" class="action-button">
+                    demande
+                </a>
+            </div>
+
+        </section>
+    </main>
+</body>
+</html>
