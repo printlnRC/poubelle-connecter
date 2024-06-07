@@ -4,36 +4,40 @@
 #include <SPIFFS.h>
 #include <DFRobot_HX711.h>
 
+// Configuration WiFi
 const char* ssid = "Xiaomi 11T Pro";
 const char* password = "123456789";
 
+// Configuration des broches et autres constantes
 const int trigPin = 5;
 const int echoPin = 18;
-const unsigned long MEASURE_TIMEOUT = 25000UL;
-const float SOUND_SPEED = 340.0 / 1000;
+const unsigned long MEASURE_TIMEOUT = 25000UL; // Timeout pour la mesure de distance
+const float SOUND_SPEED = 340.0 / 1000; // Vitesse du son en mm/us
 int pourcentage = 0;
-float volume = 0;
+int volume = 0; // Volume en m3
 const int DOUT = 21;
 const int CLK = 19;
-DFRobot_HX711 MyScale(DOUT, CLK);
-float masse = 0;
+DFRobot_HX711 MyScale(DOUT, CLK); // Instanciation du capteur de poids
+int masse = 0; // Masse en kg
 const int batterie = 34;
-int bat = 0; // Déclarer bat en tant que variable globale
+int bat = 0; // Pourcentage de la batterie
 
-WebServer server(80);
+WebServer server(80); // Serveur web sur le port 80
 
 void setup() {
-  Serial.begin(115200);
-  MyScale.setCalibration(114);
-  pinMode(trigPin, OUTPUT);
-  digitalWrite(trigPin, LOW);
-  pinMode(echoPin, INPUT);
+  Serial.begin(115200); // Initialisation de la communication série
+  MyScale.setCalibration(114); // Calibration du capteur de poids
+  pinMode(trigPin, OUTPUT); // Configuration de trigPin comme sortie
+  digitalWrite(trigPin, LOW); // Mise à LOW de trigPin
+  pinMode(echoPin, INPUT); // Configuration de echoPin comme entrée
 
+  // Initialisation du système de fichiers SPIFFS
   if (!SPIFFS.begin(true)) {
     Serial.println("An Error has occurred while mounting SPIFFS");
     return;
   }
 
+  // Connexion au réseau WiFi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -42,7 +46,7 @@ void setup() {
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 
-  // Routes pour les fichiers statiques
+  // Configuration des routes pour les fichiers statiques
   server.on("/batterie.png", HTTP_GET, []() {
     File file = SPIFFS.open("/batterie.png", "r");
     server.streamFile(file, "image/png");
@@ -101,6 +105,7 @@ void setup() {
     file.close();
   });
 
+  // Configuration des routes pour les données dynamiques
   server.on("/status", HTTP_GET, []() {
     server.send(200, "text/plain", String(pourcentage));
   });
@@ -117,13 +122,14 @@ void setup() {
     server.send(200, "text/plain", String(bat));
   });
 
-  server.begin();
+  server.begin(); // Démarrage du serveur HTTP
   Serial.println("HTTP server started");
 }
 
 void loop() {
-  server.handleClient();
+  server.handleClient(); // Gestion des requêtes clients
 
+  // Mesure de la distance avec le capteur à ultrasons
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
@@ -131,14 +137,16 @@ void loop() {
   long measure = pulseIn(echoPin, HIGH, MEASURE_TIMEOUT);
   float distance_mm = measure / 2.0 * SOUND_SPEED;
 
-  pourcentage = 100 - distance_mm / 1000 * 100;
-  volume = pourcentage * 0.4205 / 100;
+  pourcentage = round(100 - distance_mm / 1000 * 100); // Calcul du pourcentage de remplissage
+  volume = round(pourcentage * 0.4205 / 100); // Calcul du volume en m3
 
-  masse = MyScale.readWeight() / 1000.0;
+  masse = round(MyScale.readWeight() / 1000.0); // Lecture de la masse en kg
 
-  int analogValue = analogRead(batterie);
-  bat = analogValue / 4095.0 * 100; // Utiliser la variable globale bat
+  int analogValue = analogRead(batterie); // Lecture de la valeur analogique de la batterie
+  float voltage = analogValue * (3.3 / 4095.0); // Calcul de la tension de la batterie en volts
+  bat = map(analogValue, 2800, 4095, 0, 100); // Conversion de la valeur analogique en pourcentage
 
+  // Affichage des valeurs sur le moniteur série
   Serial.print("Distance: ");
   Serial.print(distance_mm);
   Serial.print("mm ");
@@ -154,12 +162,14 @@ void loop() {
   Serial.print(masse);
   Serial.println(" kg");
 
-  Serial.print("Valeur analogique batterie: ");
-  Serial.println(analogValue);
+  Serial.print("Voltage batterie: ");
+  Serial.print(voltage);
+  Serial.println("V");
 
   Serial.print("Pourcentage de batterie: ");
   Serial.print(bat);
   Serial.println("%");
 
-  delay(500);
+  delay(500); // Attente de 500ms avant la prochaine mesure
 }
+
